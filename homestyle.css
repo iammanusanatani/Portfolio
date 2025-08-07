@@ -1,0 +1,205 @@
+
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #3a86ff;
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2667cc;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 4px;
+            background-color: #3a86ff;
+            border-radius: 2px;
+        }
+        
+        .hero-text h1 span {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .hero-text h1 span::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #3a86ff;
+            z-index: -1;
+            opacity: 0.5;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        
+        .hero-text h1:hover span::after {
+            transform: scaleX(1);
+        }
+        
+        .skill-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            background-color: #3a86ff;
+            border-radius: 5px;
+            position: absolute;
+        }
+        
+        .skill-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shine 2s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .project-card {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #3a86ff;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .dark-mode {
+            background-color: #1a1a2e;
+            color: #f1f1f1;
+        }
+        
+        .dark-mode .skill-bar {
+            background-color: #2c2c44;
+        }
+        
+        .dark-mode .project-card {
+            background-color: #16213e;
+            color: #f1f1f1;
+        }
+        
+        #modeToggle {
+            transition: all 0.3s ease;
+        }
+        
+        #modeToggle:hover {
+            transform: rotate(30deg);
+        }
+        
+        footer {
+            background: linear-gradient(135deg, #3a86ff 0%, #2667cc 100%);
+            color: white;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-5px);
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-input {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .contact-input:focus {
+            border-bottom-color: #3a86ff;
+        }
+        
+        .dark-mode .contact-input {
+            background-color: #16213e;
+            color: #f1f1f1;
+            border-bottom-color: #2c2c44;
+        }
+        
+        .dark-mode .contact-input:focus {
+            border-bottom-color: #3a86ff;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-content {
+                flex-direction: column-reverse;
+            }
+            
+            .hero-text {
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+            
+            .hero-image {
+                margin-bottom: 2rem;
+            }
+            
+            .section-title::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
