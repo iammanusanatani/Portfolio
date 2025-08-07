@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Tracker Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        .progress-ring {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        .exercise-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-10 animate-fade-in">
+            <div class="flex items-center">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/65a0aa68-54e4-4d69-a96a-9641e72bf4cc.png" alt="Fitness Tracker Pro logo with simple dumbbell icon in gradient colors" class="w-12 h-12 rounded-full mr-3" />
+                <h1 class="text-2xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">Fitness Tracker Pro</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button id="statsBtn" class="px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition">Stats</button>
+                <button id="addWorkoutBtn" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 transition">+ Workout</button>
+            </div>
+        </header>
+
+        <!-- Dashboard Stats -->
+        <section id="dashboard" class="mb-10 animate-fade-in">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <!-- Activity Streak -->
+                <div class="bg-gray-800 rounded-xl p-6 flex items-center">
+                    <div class="mr-4">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#4ADE80" stroke-width="2"/>
+                            <path d="M12 6V12L15 15" stroke="#4ADE80" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-gray-400 text-sm mb-1">Current Streak</h3>
+                        <p class="text-2xl font-bold">7 <span class="text-sm text-gray-400">days</span></p>
+                    </div>
+                </div>
+
+                <!-- Calories Burned -->
+                <div class="bg-gray-800 rounded-xl p-6 flex items-center">
+                    <div class="mr-4">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#F87171" stroke-width="2"/>
+                            <path d="M12 7L12 17" stroke="#F87171" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M8 13L16 13" stroke="#F87171" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-gray-400 text-sm mb-1">Calories Today</h3>
+                        <p class="text-2xl font-bold">542 <span class="text-sm text-gray-400">kcal</span></p>
+                    </div>
+                </div>
+
+                <!-- Workout Time -->
+                <div class="bg-gray-800 rounded-xl p-6 flex items-center">
+                    <div class="mr-4">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#60A5FA" stroke-width="2"/>
+                            <path d="M15 9L18 6" stroke="#60A5FA" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M6 18L9 15" stroke="#60A5FA" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-gray-400 text-sm mb-1">Workout Time</h3>
+                        <p class="text-2xl font-bold">45 <span class="text-sm text-gray-400">min</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Charts -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <!-- Weekly Progress Chart -->
+                <div class="bg-gray-800 rounded-xl p-6">
+                    <h3 class="text-lg font-semibold mb-4">Weekly Activity</h3>
+                    <canvas id="weeklyChart" height="250"></canvas>
+                </div>
+
+                <!-- Goal Progress Circular Chart -->
+                <div class="bg-gray-800 rounded-xl p-6">
+                    <h3 class="text-lg font-semibold mb-4">Monthly Goal</h3>
+                    <div class="flex justify-center items-center">
+                        <div class="relative w-48 h-48">
+                            <svg class="w-full h-full" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="45" stroke="#3F3F46" stroke-width="8" fill="none"/>
+                                <circle class="progress-ring" cx="50" cy="50" r="45" stroke="#3B82F6" stroke-width="8" fill="none" stroke-dasharray="283" stroke-dashoffset="85"/>
+                                <text x="50" y="50" text-anchor="middle" dominant-baseline="middle" font-size="16" font-weight="bold" fill="#FFFFFF">75%</text>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-center mt-4 text-gray-400">15 of 20 workouts completed</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Workouts -->
+        <section id="recentWorkouts" class="mb-10 animate-fade-in">
+            <h2 class="text-xl font-semibold mb-4">Recent Workouts</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Workout Card 1 -->
+                <div class="bg-gray-800 rounded-xl p-6 exercise-card transition duration-300 hover:bg-gray-700">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-lg font-semibold">Cardio Blast</h3>
+                        <span class="text-sm bg-green-600 text-white px-2 py-1 rounded">Completed</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">30 min • 320 kcal</p>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-400">Yesterday</span>
+                        <button class="text-blue-400 hover:text-blue-300">Details</button>
+                    </div>
+                </div>
+
+                <!-- Workout Card 2 -->
+                <div class="bg-gray-800 rounded-xl p-6 exercise-card transition duration-300 hover:bg-gray-700">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-lg font-semibold">Full Body HIIT</h3>
+                        <span class="text-sm bg-yellow-600 text-white px-2 py-1 rounded">In Progress</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">45 min • 450 kcal</p>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-400">Today</span>
+                        <button class="text-blue-400 hover:text-blue-300">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Workout Card 3 -->
+                <div class="bg-gray-800 rounded-xl p-6 exercise-card transition duration-300 hover:bg-gray-700">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-lg font-semibold">Upper Body Strength</h3>
+                        <span class="text-sm bg-green-600 text-white px-2 py-1 rounded">Completed</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">60 min • 380 kcal</p>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-400">2 days ago</span>
+                        <button class="text-blue-400 hover:text-blue-300">Details</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exercise Library -->
+        <section id="exerciseLibrary" class="animate-fade-in">
+            <h2 class="text-xl font-semibold mb-4">Exercise Library</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <!-- Exercise 1 -->
+                <div class="bg-gray-800 rounded-xl p-4 flex flex-col items-center exercise-card transition duration-300 hover:bg-gray-700">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/8805a398-f31d-4871-aaba-8e795b937596.png" alt="Person performing push-ups with proper form on exercise mat" class="w-20 h-20 rounded-full mb-3"/>
+                    <h3 class="text-sm font-semibold text-center">Push-ups</h3>
+                    <p class="text-xs text-gray-400 text-center">Upper Body</p>
+                </div>
+
+                <!-- Exercise 2 -->
+                <div class="bg-gray-800 rounded-xl p-4 flex flex-col items-center exercise-card transition duration-300 hover:bg-gray-700">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c046621e-5f07-4cb9-8be8-da8cb5f3d0a2.png" alt="Athlete doing jumping jacks with arms raised and legs apart" class="w-20 h-20 rounded-full mb-3"/>
+                    <h3 class="text-sm font-semibold text-center">Jumping Jacks</h3>
+                    <p class="text-xs text-gray-400 text-center">Cardio</p>
+                </div>
+
+                <!-- Exercise 3 -->
+                <div class="bg-gray-800 rounded-xl p-4 flex flex-col items-center exercise-card transition duration-300 hover:bg-gray-700">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/eac99902-65f6-436d-8ef6-e079ff76d3a3.png" alt="Man squatting with perfect form and barbell on shoulders" class="w-20 h-20 rounded-full mb-3"/>
+                    <h3 class="text-sm font-semibold text-center">Squats</h3>
+                    <p class="text-xs text-gray-400 text-center">Lower Body</p>
+                </div>
+
+                <!-- Exercise 4 -->
+                <div class="bg-gray-800 rounded-xl p-4 flex flex-col items-center exercise-card transition duration-300 hover:bg-gray-700">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/da6b684b-6f68-4e89-b84f-30d78a0e11d6.png" alt="Plank exercise with straight body position and hands on floor" class="w-20 h-20 rounded-full mb-3"/>
+                    <h3 class="text-sm font-semibold text-center">Plank</h3>
+                    <p class="text-xs text-gray-400 text-center">Core</p>
+                </div>
+
+                <!-- Exercise 5 -->
+                <div class="bg-gray-800 rounded-xl p-4 flex flex-col items-center exercise-card transition duration-300 hover:bg-gray-700">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/6a12f26b-99ec-40a5-a032-4f5913fd1264.png" alt="Woman stretching hamstrings with one leg extended forward" class="w-20 h-20 rounded-full mb-3"/>
+                    <h3 class="text-sm font-semibold text-center">Lunges</h3>
+                    <p class="text-xs text-gray-400 text-center">Lower Body</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Add Workout Modal -->
+    <div id="addWorkoutModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md animate-fade-in">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">Add New Workout</h2>
+                <button id="closeModalBtn" class="text-gray-400 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <form id="workoutForm" class="space-y-4">
+                <div>
+                    <label for="workoutType" class="block text-sm font-medium text-gray-300 mb-1">Workout Type</label>
+                    <select id="workoutType" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2" required>
+                        <option value="">Select type</option>
+                        <option value="cardio">Cardio</option>
+                        <option value="strength">Strength Training</option>
+                        <option value="hiit">HIIT</option>
+                        <option value="yoga">Yoga</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="workoutDuration" class="block text-sm font-medium text-gray-300 mb-1">Duration (min)</label>
+                    <input type="number" id="workoutDuration" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2" required>
+                </div>
+                <div>
+                    <label for="workoutCalories" class="block text-sm font-medium text-gray-300 mb-1">Calories Burned</label>
+                    <input type="number" id="workoutCalories" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Exercises</label>
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="exercise1" class="h-4 w-4 text-blue-600">
+                            <label for="exercise1" class="ml-2 text-sm text-gray-300">Push-ups (3x10)</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="exercise2" class="h-4 w-4 text-blue-600">
+                            <label for="exercise2" class="ml-2 text-sm text-gray-300">Squats (3x12)</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="exercise3" class="h-4 w-4 text-blue-600">
+                            <label for="exercise3" class="ml-2 text-sm text-gray-300">Plank (3x30s)</label>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-2 px-4 rounded-lg transition">Save Workout</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Weekly Chart
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('weeklyChart').getContext('2d');
+            const weeklyChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Workout Minutes',
+                        data: [45, 60, 30, 75, 45, 30, 0],
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: '#9CA3AF'
+                            },
+                            grid: {
+                                color: '#3F3F46',
+                                drawBorder: false
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#9CA3AF'
+                            },
+                            grid: {
+                                color: 'transparent',
+                                drawBorder: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Update progress ring
+            const progressRing = document.querySelector('.progress-ring');
+            const circumference = 2 * Math.PI * 45;
+            const progress = 75;
+            const offset = circumference - (progress / 100) * circumference;
+            progressRing.style.strokeDasharray = circumference;
+            progressRing.style.strokeDashoffset = offset;
+
+            // Modal functionality
+            const addWorkoutBtn = document.getElementById('addWorkoutBtn');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const addWorkoutModal = document.getElementById('addWorkoutModal');
+
+            addWorkoutBtn.addEventListener('click', () => {
+                addWorkoutModal.classList.remove('hidden');
+            });
+
+            closeModalBtn.addEventListener('click', () => {
+                addWorkoutModal.classList.add('hidden');
+            });
+
+            // Form submission
+            const workoutForm = document.getElementById('workoutForm');
+            workoutForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Workout saved successfully!');
+                addWorkoutModal.classList.add('hidden');
+                workoutForm.reset();
+            });
+        });
+    </script>
+</body>
+</html>
+
