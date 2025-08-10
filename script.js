@@ -115,3 +115,24 @@
         
         window.addEventListener('scroll', animateOnScroll);
         window.addEventListener('load', animateOnScroll);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress-bar');
+            
+            // Initialize Intersection Observer for lazy loading animation
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const progressBar = entry.target;
+                        const percent = progressBar.getAttribute('data-percent');
+                        progressBar.style.width = percent + '%';
+                    }
+                });
+            }, {
+                threshold: 0.5
+            });
+
+            progressBars.forEach(bar => {
+                observer.observe(bar);
+            });
+        });
