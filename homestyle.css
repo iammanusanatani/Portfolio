@@ -91,11 +91,11 @@
         
         .skill-name {
             font-weight:normal;
-            color: #333;
+            color: #a8a7a7;
         }
         
         .skill-percent {
-            color: #666;
+            color: #a8a7a7;
         }
         
         .progress-container {
@@ -179,17 +179,14 @@
             width: 100%;
         }
         
-        .dark-mode {
-            background-color: #1a1a2e;
-            color: #f1f1f1;
-        }
+        
         
         .dark-mode .skill-bar {
-            background-color: #2c2c44;
+            background-color: #172448;
         }
         
         .dark-mode .project-card {
-            background-color: #16213e;
+            background-color:  #172448;
             color: #f1f1f1;
         }
         
@@ -250,4 +247,44 @@
             }
         }
         
+        .dark-mode .bg-gray-50{
+            background-color: #16213e;
+            border-radius: 20px;
+            border: solid white;
+            color: #e0e0e0;
+        }
+        .dark-mode #about{
+             background-color: #16213e;
+             border-radius: 20px;
+             border: solid white;
+             color: #e0e0e0;
+        }
+        .dark-mode #projects{
+             background-color: #16213e;
+             border-radius: 20px;
+            border: solid white;
+             color: #e0e0e0;
+        }
+         .dark-mode #contact{
+             background-color: #16213e;
+             border-top-left-radius: 20px;
+             border-top-right-radius: 20px;
+             border: solid white;
+             color: #e0e0e0;
+
+        }
+         .dark-mode #contactinf{
+             background-color: #172448;
+             border-radius: 15px;  
+        }
+         .dark-mode #about1{
+             background-color: #172448;
+             color: #e0e0e0;
+         }
+         .dark-mode #about2{
+             background-color: #172448;
+             color: #e0e0e0;
+
+         }
+
 
