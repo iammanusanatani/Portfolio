@@ -115,98 +115,105 @@
     </section>
 
     <!-- Skills Section -->
-    <section id="skills" class="py-20">
-        <div class="container mx-auto px-6">
-            <h2 class="section-title text-3xl font-bold">My Skills</h2>
-            <p class="text-gray-600 mb-12 max-w-2xl dark:text-gray-300">I've developed a wide range of skills throughout my career that allows me to tackle any challenge.</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div>
-                    <h3 class="text-xl font-semibold mb-6 dark:text-white">Technical Skills</h3>
-                    <div class="space-y-6">
-                        <div>
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium dark:text-white">HTML/CSS</span>
-                                <span class="text-gray-600 dark:text-gray-300">95%</span>
-                            </div>
-                            <div class="skill-bar" style="width: 95%;">
-                                <div class="skill-progress" style=" width: 95%;"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium dark:text-white">JavaScript</span>
-                                <span class="text-gray-600 dark:text-gray-300">90%</span>
-                            </div>
-                            <div class="skill-bar"style="width: 90%;">
-                                <div class="skill-progress"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium dark:text-white">React</span>
-                                <span class="text-gray-600 dark:text-gray-300">85%</span>
-                            </div>
-                            <div class="skill-bar"style="width: 85%;">
-                                <div class="skill-progress"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium dark:text-white">Node.js</span>
-                                <span class="text-gray-600 dark:text-gray-300">80%</span>
-                            </div>
-                            <div class="skill-bar" style="width: 80%;">
-                                <div class="skill-progress"></div>
-                            </div>
-                        </div>
+<section class="bg-gray-50">
+    <div class="skill-container">
+        <h2 class="section-title text-3xl font-bold">My Skills</h2>
+        <p class="text-gray-600 mb-12 max-w-2xl dark:text-gray-300">I've developed a wide range of skills throughout my career that allows me to tackle any challenge.</p> 
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Left column -->
+            <div class="skills-left">
+                <h3 class="text-xl font-semibold mb-6 dark:text-white">Technical Skills</h3>
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span class="skill-name">HTML/CSS</span>
+                        <span class="skill-percent">92%</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" data-percent="92"></div>
                     </div>
                 </div>
                 
-                <div>
-                    <h3 class="text-xl font-semibold mb-6 dark:text-white">Professional Skills</h3>
-                    <div class="space-y-6">
-                        <div>
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium dark:text-white">Communication</span>
-                                <span class="text-gray-600 dark:text-gray-300">90%</span>
-                            </div>
-                            <div class="skill-bar"style="width: 90%;">
-                                <div class="skill-progress"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium dark:text-white">Teamwork</span>
-                                <span class="text-gray-600 dark:text-gray-300">85%</span>
-                            </div>
-                            <div class="skill-bar"style="width: 85%;">
-                                <div class="skill-progress"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium dark:text-white">Problem Solving</span>
-                                <span class="text-gray-600 dark:text-gray-300">95%</span>
-                            </div>
-                            <div class="skill-bar"style="width: 95%;">
-                                <div class="skill-progress"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium dark:text-white">Project Management</span>
-                                <span class="text-gray-600 dark:text-gray-300">75%</span>
-                            </div>
-                            <div class="skill-bar"style="width: 75%;">
-                                <div class="skill-progress"></div>
-                            </div>
-                        </div>
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span class="skill-name">JavaScript</span>
+                        <span class="skill-percent">85%</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" data-percent="85"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span class="skill-name">React.js</span>
+                        <span class="skill-percent">78%</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" data-percent="78"></div>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span class="skill-name">Node.js</span>
+                        <span class="skill-percent">80%</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" data-percent="80"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right column -->
+            <div class="skills-right">
+                <h3 class=" text-xl font-semibold mb-6 dark:text-white">Professional Skills</h3>
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span class="skill-name">Communication</span>
+                        <span class="skill-percent">80%</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" data-percent="80"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span class="skill-name">Teamwork</span>
+                        <span class="skill-percent">88%</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" data-percent="88"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span class="skill-name">Problem Solving</span>
+                        <span class="skill-percent">90%</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" data-percent="90"></div>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span class="skill-name">Project Management</span>
+                        <span class="skill-percent">75%</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" data-percent="75"></div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+        
+        <div class="mt-8 text-center">
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/9d70d933-ff75-4b16-933c-04f0da6ae571.png" alt="Developer at work with multiple screens showing code and design applications in a modern workspace" class="mx-auto rounded-lg shadow-md" />
+        </div>
+    </div>
+</section>
 
     <!-- Projects Section -->
     <section id="projects" class="py-20 bg-gray-100 dark:bg-gray-800 transition-all duration-300">
