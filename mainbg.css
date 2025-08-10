@@ -8,3 +8,8 @@
         background-size: cover;
     }
  }
+ .dark-mode .mainbg{
+    border-radius: 20px;
+    border: solid white;
+ }
+
