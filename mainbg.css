@@ -1,10 +1,10 @@
 .mainbg{
-    background-image: url(manusimg.jpg);
+    background-image: url(mannup2.jpg);
     background-size: cover;
 }
  @media (min-width: 1080px){
     .mainbg{
-        background-image: url(manu2simg.jpg);
+        background-image: url(mannup1.png);
         background-size: cover;
     }
  }
