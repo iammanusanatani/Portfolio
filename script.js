@@ -136,3 +136,51 @@
                 observer.observe(bar);
             });
         });
+
+         document.addEventListener('DOMContentLoaded', () => {
+            // Initialize or increment counter
+            let counter = localStorage.getItem('visitorCounter');
+            if (!counter) {
+                counter = 1;
+            } else {
+                counter = parseInt(counter) + 1;
+            }
+            localStorage.setItem('visitorCounter', counter);
+            document.getElementById('counter').textContent = counter;
+            
+            // Create particles when counter changes
+            createParticles();
+            
+            // Reset button functionality
+            document.getElementById('resetBtn').addEventListener('click', () => {
+                localStorage.removeItem('visitorCounter');
+                document.getElementById('counter').textContent = '0';
+                createParticles();
+            });
+        });
+        
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            particlesContainer.innerHTML = '';
+            
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 20 + 5;
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight;
+                const opacity = Math.random() * 0.6 + 0.2;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                particle.style.opacity = opacity;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+
+
