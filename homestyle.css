@@ -287,4 +287,19 @@
 
          }
 
+          @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .counter-container {
+            animation: pulse 2s infinite;
+        }
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(99,102,241,0.8) 0%, rgba(79,70,229,0.4) 70%, rgba(59,130,246,0) 100%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
 
