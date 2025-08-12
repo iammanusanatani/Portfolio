@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Code Editor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+        }
+        .editor {
+            height: 400px;
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .output-container {
+            height: 200px;
+            overflow-y: auto;
+            background-color: #1e293b;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        .main-card {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-200">
+    <header class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-code text-2xl"></i>
+                    <h1 class="text-2xl font-bold">JS Code Editor</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="run-btn" class="bg-emerald-500 hover:bg-emerald-600 px-4 py-2 rounded-full font-medium flex items-center">
+                        <i class="fas fa-play-circle mr-2"></i>
+                        Run Code
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="main-card bg-white rounded-xl overflow-hidden">
+            <div class="flex flex-col md:flex-row">
+                <!-- Left sidebar for language selection -->
+                <div class="w-full md:w-1/5 bg-gray-100 p-4">
+                    <div class="space-y-2">
+                        <div class="language-selector active-language bg-indigo-100 text-indigo-700 p-2 rounded-lg cursor-pointer flex items-center">
+                            <i class="fab fa-js-square mr-3 text-xl"></i>
+                            <span class="font-medium">JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main editor area -->
+                <div class="w-full md:w-4/5 p-6">
+                    <div class="flex mb-4 border-b border-gray-200">
+                        <span class="active-tab bg-indigo-100 text-indigo-700 tab-button px-4 py-2 rounded-t-lg font-medium">Editor</span>
+                    </div>
+                    <div id="editor" class="editor">// Write your JavaScript code here
+console.log("Hello, World!");
+
+function fibonacci(n) {
+    if (n <= 1) return n;
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+console.log(fibonacci(10));</div>
+
+                    <div class="mt-6">
+                        <h3 class="font-semibold text-gray-700 mb-2">Output</h3>
+                        <div id="output" class="output-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h2 class="text-xl font-bold mb-2">JavaScript Code Editor</h2>
+                    <p class="text-gray-400" style="display: flex; justify-self: center;">Compile and run code</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="index.html" class=" #feffff hover:text-white"><i class="fas fa-briefcase" style="font-size: 20px; color: #feffff;"></i> Manu Suryavanshi</a> 
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
+                <p>© 2025 JS Code Editor. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize ACE Editor
+        const editor = ace.edit("editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/javascript");
+        editor.setOptions({
+            fontSize: "16px",
+            enableBasicAutocompletion: true,
+            enableLiveAutocompletion: true,
+            showPrintMargin: false
+        });
+
+        // Tab switching functionality
+        const tabs = document.querySelectorAll('.tab-button');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active-tab', 'bg-indigo-100', 'text-indigo-700'));
+                // Add active class to clicked tab
+                tab.classList.add('active-tab', 'bg-indigo-100', 'text-indigo-700');
+            });
+        });
+
+        // Language selector functionality
+        const languageSelectors = document.querySelectorAll('.language-selector');
+        languageSelectors.forEach(selector => {
+            selector.addEventListener('click', () => {
+                // Remove active class from all selectors
+                languageSelectors.forEach(s => s.classList.remove('active-language', 'bg-indigo-100', 'text-indigo-700'));
+                // Add active class to clicked selector
+                selector.classList.add('active-language', 'bg-indigo-100', 'text-indigo-700');
+                
+                // Update editor mode based on selected language
+                updateEditorMode(selector.textContent.trim());
+            });
+        });
+
+        // Update editor mode based on selected language
+        function updateEditorMode(language) {
+            let mode;
+            switch(language) {
+                case 'JavaScript':
+                    mode = 'javascript';
+                    break;
+                case 'Python':
+                    mode = 'python';
+                    break;
+                case 'Java':
+                    mode = 'java';
+                    break;
+                case 'C':
+                    mode = 'c_cpp';
+                    break;
+                case 'C++':
+                    mode = 'c_cpp';
+                    break;
+                case 'R':
+                    mode = 'r';
+                    break;
+                case 'Swift':
+                    mode = 'swift';
+                    break;
+                default:
+                    mode = 'javascript';
+            }
+            editor.session.setMode(`ace/mode/${mode}`);
+        }
+
+        // Run button functionality - this is a mock implementation
+        // In a real app, you would connect to a compilation API
+        document.getElementById('run-btn').addEventListener('click', () => {
+            const output = document.getElementById('output');
+            output.innerHTML = '';
+            
+            try {
+                // Show compiling message
+                output.innerHTML = '<span class="text-blue-400">Compiling your code...</span>';
+                
+                // Mock delay to simulate compilation
+                setTimeout(() => {
+                    output.innerHTML = '';
+                    
+                    // For demo purposes, we'll just evaluate JS code directly
+                    if (editor.getValue().trim()) {
+                        output.innerHTML += '<span class="text-green-400">Program executed successfully!</span>\n\n';
+                        
+                        // Redirect console.log to our output
+                        const originalLog = console.log;
+                        console.log = function(...args) {
+                            originalLog(...args);
+                            output.innerHTML += args.map(arg => {
+                                if (typeof arg === 'object') {
+                                    return JSON.stringify(arg) + '\n';
+                                }
+                                return arg + '\n';
+                            }).join(' ');
+                        };
+                        
+                        try {
+                            eval(editor.getValue());
+                        } catch (e) {
+                            output.innerHTML += `<span class="text-red-400">Error: ${e.message}</span>`;
+                        }
+                        
+                        // Restore original console.log
+                        console.log = originalLog;
+                    } else {
+                        output.innerHTML = '<span class="text-yellow-400">No code to compile. Please write some code first.</span>';
+                    }
+                }, 1500);
+            } catch (error) {
+                output.innerHTML = `<span class="text-red-400">Compilation Error: ${error.message}</span>`;
+            }
+        });
+    </script>
+</body>
+</html>
